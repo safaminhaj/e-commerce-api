@@ -7,6 +7,7 @@ const app = express();
 //rest of the packages
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
 
 //db
 const connectDB = require("./db/connect");
@@ -20,9 +21,11 @@ const authRouter = require("./routes/authRoutes");
 const userRouter = require("./routes/userRoutes");
 const productRouter = require("./routes/productRoutes");
 
+app.use(express.static("./public"));
 app.use(morgan("tiny"));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
+app.use(fileUpload({ useTempFiles: true }));
 
 app.get("/", (req, res) => {
   res.send("e-commerce API");
